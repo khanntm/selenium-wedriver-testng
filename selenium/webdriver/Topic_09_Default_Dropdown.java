@@ -117,10 +117,6 @@ public class Topic_09_Default_Dropdown {
 		
 		}
 
-	@Test
-	public void TC_03() {
-
-	}
 
 	@AfterClass
 	public void afterClass() {
