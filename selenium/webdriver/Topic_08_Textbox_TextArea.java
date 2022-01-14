@@ -58,9 +58,6 @@ public class Topic_08_Textbox_TextArea {
 		phoneNumberEdit= "0938473772"; 
 		emailEdit= "Khan" + getRandomNumber() + "@email.us"; 
 
-		
-		
-		
 		driver.get(loginPageUrl);
 	}
 

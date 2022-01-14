@@ -1,11 +1,13 @@
 package webdriver;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,11 +22,15 @@ public class Topic_13_Alert {
 	Alert alert;
 	WebDriverWait explicitWait; 
 	String projectPath = System.getProperty("user.dir");
+	String authenChrome = projectPath + "\\autoIT\\authen_chrome.exe";
+	String authenFirefox = projectPath + "\\autoIT\\authen_firefox.exe";
 
 	@BeforeClass
 	public void beforeClass() {
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		driver = new FirefoxDriver();
+		
+		System.out.println("Driver ID " + driver.toString());
 		
 		explicitWait = new WebDriverWait(driver,30);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -90,7 +96,7 @@ public class Topic_13_Alert {
 
 	}
 	
-	@Test
+	//@Test
 		public void TC_05_Authentication_Alert_Change_Page() {
 			
 			String username = "admin";
@@ -100,10 +106,23 @@ public class Topic_13_Alert {
 			WebElement basicAuthenLink = driver.findElement(By.xpath("//a[text()='Basic Auth']"));
 			driver.get(getAuthenticationUrl(basicAuthenLink.getAttribute("href"), username, password));
 			
-			Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
-			
+			Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());	
 		}
 
+	@Test
+	public void TC_06_Authentication_Alert_AutoIT_Window() throws IOException {
+		String username = "admin";
+		String password = "admin";
+		
+		Runtime.getRuntime().exec(new String[] {authenFirefox, username, password});
+		
+		driver.get("http://the-internet.herokuapp.com/basic_auth");
+		sleepInSeconds(5);
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
+	}
+	
+	
 	@AfterClass
 	public void afterClass() {
 		//driver.quit();
